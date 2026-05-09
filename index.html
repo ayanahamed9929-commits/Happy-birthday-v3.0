@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600&family=Dancing+Script:wght@700&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fff0f3;
+        }
+
+        .font-serif-love {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .cursive-title {
+            font-family: 'Great Vibes', cursive;
+            color: #f366b9; 
+            line-height: 1.1;
+        }
+
+        /* Animation Keyframes */
+        @keyframes driveOnLoveRoad {
+            0% { left: -500px; transform: scale(0.9); }
+            100% { left: 110vw; transform: scale(1.1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes bgFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-200px) rotate(45deg); opacity: 0; }
+        }
+
+        .animate-drive {
+            animation: driveOnLoveRoad 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-bg-float {
+            animation: bgFloat 10s linear infinite;
+        }
+
+        .road-gradient {
+            background: linear-gradient(to bottom, #ffe4e6, #fbcfe8);
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: #e11d48;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Gallery Styles */
+        .memory-card {
+            background: white;
+            border-radius: 30px;
+            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto 40px;
+        }
+
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gradient-button {
+            background: linear-gradient(90deg, #ff6eb4 0%, #d876f1 100%);
+            color: white;
+            padding: 16px 45px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(255, 110, 180, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-bg {
+            background-color: #fdf5ec; 
+            background-image: radial-gradient(#e8e0d5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .blend-multiply {
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/345t9k.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="app" class="relative w-full">
+        
+        <!-- PHASE 1: DRIVING -->
+        <div id="driving-phase" class="w-full h-screen relative flex flex-col justify-between py-20 bg-[#fff0f3]">
+            <div class="text-center z-30">
+                <h3 class="text-4xl md:text-6xl font-black text-rose-500 uppercase tracking-tighter" id="drive-title">
+                    Let's Go!
+                </h3>
+                <p class="text-rose-400 font-serif-love text-2xl mt-2">A special journey for a special day...</p>
+            </div>
+
+            <div class="relative w-full h-[300px] mt-auto">
+                <div class="absolute bottom-0 w-full h-40 road-gradient border-t-4 border-rose-300"></div>
+                <div class="absolute bottom-8 w-[280px] md:w-[450px] z-20 animate-drive blend-multiply">
+                    <img src="https://i.ibb.co.com/Tx0pGLfM/13-06-21-906-512.gif" alt="Driving Car" class="w-full">
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2: BIRTHDAY WISH -->
+        <div id="love-phase" class="hidden relative h-screen flex flex-col items-center justify-center p-4 bg-[#fff0f3]">
+            <div class="absolute inset-0 pointer-events-none" id="hearts-container"></div>
+            
+            <div class="relative z-10 w-full max-w-xl text-center">
+                <img src="https://i.ibb.co.com/Nn7wY9rt/4dc5cc9b5650e20fbb0b9c1a5ae3eec9.gif" 
+                     class="w-64 h-64 mx-auto mb-6 blend-multiply">
+
+                <div class="bg-white/60 backdrop-blur-xl p-8 rounded-[40px] shadow-xl border border-white">
+                    <h1 class="text-4xl md:text-5xl font-black text-rose-600 mb-4 uppercase">HAPPY BIRTHDAY <br><span class="font-serif-love text-rose-500" id="wish-name">Sona!</span></h1>
+                    
+                    <div class="min-h-[80px]">
+                        <p id="typing-text" class="text-gray-700 font-medium text-lg md:text-xl leading-relaxed typing-cursor"></p>
+                    </div>
+
+                    <div id="btn-wrap" class="mt-8 opacity-0 transition-opacity duration-1000">
+                        <button onclick="showGallery()" class="gradient-button">Explore Memories ✨</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 3: DYNAMIC GALLERY -->
+        <div id="gallery-phase" class="hidden gallery-bg w-full">
+            <div class="min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center">
+                <h1 class="cursive-title text-5xl mb-6">Happy Birthday<br>to Someone Special</h1>
+                <p class="text-gray-500 max-w-xs mx-auto text-lg mb-12">
+                    Today is all about celebrating you! Every moment we've shared is a gift I'll always treasure...
+                </p>
+
+                <div id="gallery-container" class="w-full flex flex-col items-center gap-2"></div>
+            </div>
+
+            <!-- Final Message -->
+            <div class="min-h-screen flex flex-col items-center justify-center px-8 py-20 text-center">
+                <h1 class="cursive-title text-5xl mb-12">Make a Wish,<br><span id="final-name">Birthday Girl</span>!</h1>
+                
+                <div class="text-gray-600 space-y-6 text-lg">
+                    <p>Every laugh we've shared and every memory we've made is a highlight of my life. 💫</p>
+                    <p>I am so incredibly lucky to have you. Thank you for being you!</p>
+                    <p class="font-bold text-rose-500">Have the most amazing birthday ever—you truly are a star! ✨🎂</p>
+                </div>
+
+                <div class="mt-16 mb-10">
+                    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="gradient-button">Celebrate Always 💝</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+
+        // URL logic
+        const urlParams = new URLSearchParams(window.location.search);
+        const userName = urlParams.get('name') || "Sona";
+        const memories = [];
+        
+        for(let i = 1; i <= 10; i++) {
+            const pic = urlParams.get(`pic${i}`);
+            if (pic) {
+                memories.push({
+                    img: pic,
+                    title: i === 1 ? "Brightest Smile" : (i === 2 ? "Perfect Moments" : "Stay Amazing"),
+                    text: i === 1 ? "You make everything better with your presence." : "Grateful for every second we share together.",
+                    emoji: i % 2 === 0 ? "🍰" : "💖"
+                });
+            }
+        }
+
+        if (memories.length === 0) {
+            memories.push(
+                { img: "https://i.ibb.co/5h22R3Mc/42589cf1e583410e8a925cb3268e385a.jpg", title: "The Brightest Smile", text: "Your smile makes everything better. I hope this year brings you as much joy as you give to everyone around you! 🎈✨", emoji: "🎂" },
+                { img: "https://i.ibb.co/spg9SR8X/e71248737777eb112fe2573f55bc34fe.jpg", title: "Cheers to Your Day", text: "May your birthday be filled with endless surprises, laughter, and the people you love most. You deserve the best! 🎁🌸", emoji: "🍰" },
+                { img: "https://i.ibb.co/JjqYZRqh/4d3965e68137197e65855f199b9658c5.jpg", title: "Purest Soul", text: "Never stop being the incredible person you are. The world is a much prettier place with you in it! Happy Birthday! 🥳💖", emoji: "🌟" }
+            );
+        }
+
+        document.getElementById('drive-title').innerText = `Let's Go ${userName}!`;
+        document.getElementById('wish-name').innerText = `${userName}!`;
+        document.getElementById('final-name').innerText = userName;
+
+        const birthdayMessage = `Happy Birthday, my dear ${userName}! ❤️ You are the greatest gift in my life. On this special day, I wish you endless happiness and joy. May you always stay smiling! 🎂✨`;
+
+        function generateGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = "";
+            memories.forEach((item, index) => {
+                const cardHtml = `
+                    <div class="relative w-full px-6">
+                        <div class="absolute ${index % 2 === 0 ? '-left-2' : '-right-2'} top-1/2 animate-float pointer-events-none" style="font-size: 32px; z-index: 20;">${item.emoji}</div>
+                        <div class="memory-card">
+                            <div class="photo-frame">
+                                <img src="${item.img}" alt="Moment">
+                            </div>
+                            <h2 class="cursive-title text-3xl text-left mb-2">${item.title}</h2>
+                            <p class="text-left text-sm font-medium">${item.text}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function typeWriter(text, elementId, speed = 50) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing-cursor');
+                    const btn = document.getElementById('btn-wrap');
+                    btn.style.opacity = '1';
+                }
+            }
+            type();
+        }
+
+        function showGallery() {
+            const gallery = document.getElementById('gallery-phase');
+            gallery.classList.remove('hidden');
+            document.body.style.overflow = 'auto';
+            gallery.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Logic to start music and animations
+        function startExperience() {
+            // Try to play audio
+            audio.play().catch(() => {
+                // If blocked, wait for first click/touch
+                window.addEventListener('click', () => audio.play(), { once: true });
+                window.addEventListener('touchstart', () => audio.play(), { once: true });
+            });
+
+            generateGallery();
+            setTimeout(() => {
+                document.getElementById('driving-phase').classList.add('hidden');
+                document.getElementById('love-phase').classList.remove('hidden');
+                createHearts();
+                setTimeout(() => typeWriter(birthdayMessage, "typing-text"), 500);
+            }, 5000);
+        }
+
+        window.onload = startExperience;
+
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'absolute text-rose-300/40 animate-bg-float';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.bottom = '-20px';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
